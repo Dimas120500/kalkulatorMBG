@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" 
+          content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; 
+                   style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; 
+                   font-src 'self' https://cdnjs.cloudflare.com;
+                   script-src 'self' 'unsafe-inline' 'unsafe-eval';">
+    
+    <title>Kalkulator MBG - Cordova App</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f2f7ff 0%, #e3f2fd 100%);
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 80px; /* Space for fixed footer */
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.1);
+        }
+        
+        .header h1 {
+            color: #2563eb;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* Card Styles */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .card-title {
+            color: #2563eb;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e8f4ff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-title i {
+            font-size: 20px;
+        }
+        
+        /* Input Styles */
+        .input-group {
+            margin-bottom: 16px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+            font-weight: 500;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        /* Button Styles */
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            box-shadow: 0 6px 15px rgba(16, 185, 129, 0.3);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            box-shadow: 0 6px 15px rgba(239, 68, 68, 0.3);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+            box-shadow: 0 6px 15px rgba(245, 158, 11, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+            box-shadow: 0 6px 15px rgba(107, 114, 128, 0.3);
+        }
+        
+        /* Button Grid */
+        .btn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        /* Data Item */
+        .data-item {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 16px;
+            border-left: 5px solid #2563eb;
+            transition: all 0.3s;
+        }
+        
+        .data-item:hover {
+            background: #f1f5f9;
+        }
+        
+        .data-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .data-item-title {
+            font-weight: 700;
+            color: #1e293b;
+            font-size: 18px;
+        }
+        
+        .data-item-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .edit-btn {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+        
+        .edit-btn:hover {
+            background: #bfdbfe;
+        }
+        
+        .delete-btn {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        
+        .delete-btn:hover {
+            background: #fecaca;
+        }
+        
+        .data-item-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .data-column {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+        }
+        
+        .data-label {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+        
+        .data-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        /* Total Card */
+        .total-card {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid #bfdbfe;
+        }
+        
+        .total-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .total-item {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .total-label {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+        
+        .total-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: #2563eb;
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            max-width: 350px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .toast-error {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+        
+        .toast-info {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+        
+        .toast-warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #94a3b8;
+        }
+        
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        
+        /* Footer */
+        .app-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 15px 20px;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-info {
+            font-size: 12px;
+            color: #64748b;
+        }
+        
+        .footer-info a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+        
+        .footer-info a:hover {
+            text-decoration: underline;
+        }
+        
+        .version {
+            font-size: 11px;
+            opacity: 0.7;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-title {
+            margin-bottom: 20px;
+            color: #1e293b;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 600px) {
+            .data-item-content, 
+            .total-grid,
+            .btn-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 8px;
+                text-align: center;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1><i class="fas fa-calculator"></i> Kalkulator MBG</h1>
+            <p>Hitung porsi makanan bergizi dengan mudah dan akurat</p>
+        </div>
+        
+        <!-- Form Input -->
+        <div class="card fade-in">
+            <div class="card-title">
+                <i class="fas fa-plus-circle"></i>
+                <span>Tambah Data Sekolah</span>
+            </div>
+            
+            <div class="input-group">
+                <label for="nama"><i class="fas fa-school"></i> Nama Sekolah</label>
+                <input type="text" id="nama" placeholder="Contoh: SDN 01 Jakarta" maxlength="50">
+            </div>
+            
+            <div class="input-group">
+                <label for="besar"><i class="fas fa-utensils"></i> Porsi Besar</label>
+                <input type="number" id="besar" placeholder="Jumlah porsi besar" min="0">
+            </div>
+            
+            <div class="input-group">
+                <label for="kecil"><i class="fas fa-utensil-spoon"></i> Porsi Kecil</label>
+                <input type="number" id="kecil" placeholder="Jumlah porsi kecil" min="0">
+            </div>
+            
+            <button class="btn btn-primary" onclick="tambahData()">
+                <i class="fas fa-save"></i> Simpan Data
+            </button>
+            
+            <div class="btn-grid">
+                <button class="btn btn-secondary" onclick="resetForm()">
+                    <i class="fas fa-redo"></i> Reset Form
+                </button>
+                <button class="btn btn-warning" onclick="clearAllData()">
+                    <i class="fas fa-trash-alt"></i> Hapus Semua
+                </button>
+            </div>
+        </div>
+        
+        <!-- Daftar Data -->
+        <div class="card fade-in" style="animation-delay: 0.1s;">
+            <div class="card-title">
+                <i class="fas fa-list"></i>
+                <span>Data Sekolah (Total: <span id="countData">0</span>)</span>
+            </div>
+            
+            <div id="listData">
+                <!-- Data akan ditampilkan di sini -->
+                <div class="empty-state">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>Belum ada data sekolah</p>
+                    <p style="font-size: 12px; margin-top: 8px;">Tambahkan data sekolah menggunakan form di atas</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Total Keseluruhan -->
+        <div class="card total-card fade-in" style="animation-delay: 0.2s;">
+            <div class="card-title">
+                <i class="fas fa-chart-bar"></i>
+                <span>Total Keseluruhan</span>
+            </div>
+            
+            <div id="total">
+                <!-- Total akan ditampilkan di sini -->
+                <div class="total-grid">
+                    <div class="total-item">
+                        <div class="total-label">Porsi Besar</div>
+                        <div class="total-value">0</div>
+                    </div>
+                    <div class="total-item">
+                        <div class="total-label">Porsi Kecil</div>
+                        <div class="total-value">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Export & Aksi -->
+        <div class="card fade-in" style="animation-delay: 0.3s;">
+            <div class="card-title">
+                <i class="fas fa-download"></i>
+                <span>Ekspor & Aksi</span>
+            </div>
+            
+            <div class="btn-grid">
+                <button class="btn btn-success" onclick="exportHTML()">
+                    <i class="fas fa-file-export"></i> Export HTML
+                </button>
+                <button class="btn btn-info" onclick="exportPDF()">
+                    <i class="fas fa-file-pdf"></i> Export PDF
+                </button>
+                <button class="btn btn-warning" onclick="printReport()">
+                    <i class="fas fa-print"></i> Cetak Laporan
+                </button>
+                <button class="btn btn-secondary" onclick="shareReport()">
+                    <i class="fas fa-share-alt"></i> Share
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Pesan toast</span>
+    </div>
+    
+    <!-- Modal Konfirmasi -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-title"><i class="fas fa-exclamation-triangle"></i> Konfirmasi</h3>
+            <p id="confirmMessage">Apakah Anda yakin ingin menghapus semua data?</p>
+            <div class="btn-grid">
+                <button class="btn btn-danger" onclick="confirmAction(true)">
+                    <i class="fas fa-check"></i> Ya
+                </button>
+                <button class="btn btn-secondary" onclick="confirmAction(false)">
+                    <i class="fas fa-times"></i> Batal
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="footer-content">
+            <div class="footer-info">
+                <i class="fas fa-code"></i> Developed by <a href="#" onclick="showDeveloperInfo()">Fiqih Dimas</a>
+                <span class="version"> | v1.0.0 | Cordova App</span>
+            </div>
+            <div class="footer-info">
+                <i class="fas fa-database"></i> Data tersimpan: <span id="storageInfo">0 KB</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Konstanta
+        const ISI_PER_IKAT = 5;
+        const APP_NAME = "KalkulatorMBG";
+        const APP_VERSION = "1.0.0";
+        
+        // State management
+        let dataMBG = JSON.parse(localStorage.getItem("dataMBG")) || [];
+        let isEditing = false;
+        let editIndex = null;
+        let confirmCallback = null;
+
+        // Inisialisasi
+        document.addEventListener('DOMContentLoaded', function() {
+            render();
+            updateStorageInfo();
+            
+            // Enter key untuk submit form
+            document.getElementById('nama').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') tambahData();
+            });
+            
+            document.getElementById('besar').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') tambahData();
+            });
+            
+            document.getElementById('kecil').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') tambahData();
+            });
+            
+            // Show welcome message
+            if (!localStorage.getItem('welcomeShown')) {
+                showToast('Selamat datang di Kalkulator MBG!', 'info');
+                localStorage.setItem('welcomeShown', 'true');
+            }
+        });
+        // Simpan ke localStorage
+        function simpan() {
+            localStorage.setItem("dataMBG", JSON.stringify(dataMBG));
+            updateStorageInfo();
+        }
+
+        // Tambah/Edit Data
+        function tambahData() {
+            const nama = document.getElementById("nama").value.trim();
+            const besar = parseInt(document.getElementById("besar").value) || 0;
+            const kecil = parseInt(document.getElementById("kecil").value) || 0;
+
+            // Validasi
+            if (!nama) {
+                showToast("Nama sekolah harus diisi!", "error");
+                document.getElementById("nama").focus();
+                return;
+            }
+
+            if (besar < 0 || kecil < 0) {
+                showToast("Porsi tidak boleh negatif!", "error");
+                return;
+            }
+
+            if (isEditing && editIndex !== null) {
+                // Edit data yang ada
+                dataMBG[editIndex] = { nama, besar, kecil };
+                showToast("Data berhasil diupdate!", "success");
+                isEditing = false;
+                editIndex = null;
+            } else {
+                // Tambah data baru
+                dataMBG.push({ nama, besar, kecil });
+                showToast("Data berhasil ditambahkan!", "success");
+            }
+
+            simpan();
+            render();
+            resetForm();
+        }
+
+        // Edit Data
+        function editData(index) {
+            const data = dataMBG[index];
+            document.getElementById("nama").value = data.nama;
+            document.getElementById("besar").value = data.besar;
+            document.getElementById("kecil").value = data.kecil;
+            
+            isEditing = true;
+            editIndex = index;
+            
+            showToast("Edit mode aktif", "info");
+            document.getElementById("nama").focus();
+            
+            // Scroll ke form
+            document.querySelector('.card').scrollIntoView({ behavior: 'smooth' });
+        }
+document.querySelector('.card').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Hapus Data
+        function hapusData(index) {
+            showConfirm(
+                "Hapus Data", 
+                `Apakah Anda yakin ingin menghapus data "${dataMBG[index].nama}"?`,
+                function() {
+                    dataMBG.splice(index, 1);
+                    simpan();
+                    render();
+                    showToast("Data berhasil dihapus!", "success");
+                }
+            );
+        }
+
+        // Hapus Semua Data
+        function clearAllData() {
+            if (dataMBG.length === 0) {
+                showToast("Tidak ada data untuk dihapus", "warning");
+                return;
+            }
+            
+            showConfirm(
+                "Hapus Semua Data", 
+                `Apakah Anda yakin ingin menghapus semua data (${dataMBG.length} sekolah)?`,
+                function() {
+                    dataMBG = [];
+                    simpan();
+                    render();
+                    showToast("Semua data berhasil dihapus!", "success");
+                }
+            );
+        }
+
+        // Reset Form
+        function resetForm() {
+            document.getElementById("nama").value = "";
+            document.getElementById("besar").value = "";
+            document.getElementById("kecil").value = "";
+            isEditing = false;
+            editIndex = null;
+            document.getElementById("nama").focus();
+            showToast("Form telah direset", "info");
+        }
+
+        // Render Data
+        function render() {
+            const list = document.getElementById("listData");
+            const countElement = document.getElementById("countData");
+            
+            countElement.textContent = dataMBG.length;
+            
+            if (dataMBG.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-clipboard-list"></i>
+                        <p>Belum ada data sekolah</p>
+                        <p style="font-size: 12px; margin-top: 8px;">Tambahkan data sekolah menggunakan form di atas</p>
+                    </div>
+                `;
+                renderTotal();
+                return;
+            }
+
+            let html = "";
+            let totalB = 0, totalK = 0;
+
+            dataMBG.forEach((d, i) => {
+                const ib = Math.floor(d.besar / ISI_PER_IKAT);
+                const ob = d.besar % ISI_PER_IKAT;
+                const ik = Math.floor(d.kecil / ISI_PER_IKAT);
+                const ok = d.kecil % ISI_PER_IKAT;
+
+                totalB += d.besar;
+                totalK += d.kecil;
+
+                html += `
+                    <div class="data-item fade-in" style="animation-delay: ${i * 0.05}s">
+                        <div class="data-item-header">
+                            <div class="data-item-title">
+                                <i class="fas fa-school"></i> ${d.nama}
+                            </div>
+                            <div class="data-item-actions">
+                                <button class="action-btn edit-btn" onclick="editData(${i})" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete-btn" onclick="hapusData(${i})" title="Hapus">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="data-item-content">
+                            <div class="data-column">
+                                <div class="data-label">Porsi Besar</div>
+                                <div class="data-value">${d.besar}</div>
+                                <div style="margin-top: 8px;">
+                                    <small><i class="fas fa-link"></i> Ikat: ${ib}</small><br>
+                                    <small><i class="fas fa-utensils"></i> Ompreng: ${ob}</small>
+                                </div>
+                            </div>
+                            <div class="data-column">
+                                <div class="data-label">Porsi Kecil</div>
+                                <div class="data-value">${d.kecil}</div>
+                                <div style="margin-top: 8px;">
+                                    <small><i class="fas fa-link"></i> Ikat: ${ik}</small><br>
+                                    <small><i class="fas fa-utensil-spoon"></i> Ompreng: ${ok}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+            renderTotal(totalB, totalK);
+        }
+
+        // Render Total
+        function renderTotal(totalB = 0, totalK = 0) {
+            const totalDiv = document.getElementById("total");
+            
+            const ib = Math.floor(totalB / ISI_PER_IKAT);
+            const ob = totalB % ISI_PER_IKAT;
+            const ik = Math.floor(totalK / ISI_PER_IKAT);
+            const ok = totalK % ISI_PER_IKAT;
+
+            totalDiv.innerHTML = `
+                <div class="total-grid">
+                    <div class="total-item">
+                        <div class="total-label">Porsi Besar</div>
+                        <div class="total-value">${totalB}</div>
+                        <div style="margin-top: 8px; font-size: 12px;">
+                            <i class="fas fa-link"></i> Ikat: ${ib} | 
+                            <i class="fas fa-utensils"></i> Ompreng: ${ob}
+                        </div>
+                    </div>
+                    <div class="total-item">
+                        <div class="total-label">Porsi Kecil</div>
+                        <div class="total-value">${totalK}</div>
+                        <div style="margin-top: 8px; font-size: 12px;">
+                            <i class="fas fa-link"></i> Ikat: ${ik} | 
+                            <i class="fas fa-utensil-spoon"></i> Ompreng: ${ok}
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; text-align: center; color: #64748b; font-size: 14px;">
+                    <i class="fas fa-info-circle"></i> 1 ikat = ${ISI_PER_IKAT} porsi
+                </div>
+            `;
+        }
+                // Export HTML
+        function exportHTML() {
+            let html = `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Laporan MBG - ${new Date().toLocaleDateString('id-ID')}</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        h2 { color: #2563eb; border-bottom: 2px solid #2563eb; padding-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f2f7ff; }
+        .total-row { background-color: #eff6ff; font-weight: bold; }
+        .header-info { background: #f8fafc; padding: 15px; border-radius: 8px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h2><i class="fas fa-file-alt"></i> Laporan MBG</h2>
+    
+    <div class="header-info">
+        <strong>Tanggal:</strong> ${new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}<br>
+        <strong>Waktu:</strong> ${new Date().toLocaleTimeString('id-ID')}<br>
+        <strong>Total Sekolah:</strong> ${dataMBG.length}
+    </div>
+        <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Sekolah</th>
+                <th>Besar (Porsi)</th>
+                <th>Besar (Ikat)</th>
+                <th>Besar (Ompreng)</th>
+                <th>Kecil (Porsi)</th>
+                <th>Kecil (Ikat)</th>
+                <th>Kecil (Ompreng)</th>
+            </tr>
+        </thead>
+        <tbody>`;
+            
+            let totalB = 0, totalK = 0;
+            
+            dataMBG.forEach((d, i) => {
+                totalB += d.besar;
+                totalK += d.kecil;
+                
+                html += `
+            <tr>
+                <td>${i + 1}</td>
+                <td>${d.nama}</td>
+                <td>${d.besar}</td>
+                <td>${Math.floor(d.besar / ISI_PER_IKAT)}</td>
+                <td>${d.besar % ISI_PER_IKAT}</td>
+                <td>${d.kecil}</td>
+                <td>${Math.floor(d.kecil / ISI_PER_IKAT)}</td>
+                <td>${d.kecil % ISI_PER_IKAT}</td>
+            </tr>`;
+            });
+            
+            html += `
+            <tr class="total-row">
+                <td colspan="2"><strong>TOTAL</strong></td>
+                <td>${totalB}</td>
+                <td>${Math.floor(totalB / ISI_PER_IKAT)}</td>
+                <td>${totalB % ISI_PER_IKAT}</td>
+                <td>${totalK}</td>
+                <td>${Math.floor(totalK / ISI_PER_IKAT)}</td>
+                <td>${totalK % ISI_PER_IKAT}</td>
+            </tr>
+        </tbody>
+    </table>
+      <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 12px; color: #666;">
+        <p><i>Dokumen ini dihasilkan oleh Kalkulator MBG v${APP_VERSION}</i></p>
+        <p><i>Developed by Fiqih Dimas</i></p>
+    </div>
+</body>
+</html>`;
+            
+            const blob = new Blob([html], { type: "text/html" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `Laporan_MBG_${new Date().toISOString().split('T')[0]}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showToast("Laporan HTML berhasil diexport!", "success");
+        }
+
+        // Export PDF (simulasi)
+        function exportPDF() {
+            if (dataMBG.length === 0) {
+                showToast("Tidak ada data untuk diexport", "warning");
+                return;
+            }
+            
+            // Untuk Cordova, bisa menggunakan plugin cordova-plugin-file-opener2
+            if (typeof cordova !== 'undefined') {
+                showToast("Fitur PDF akan tersedia di Cordova", "info");
+                // Implementasi Cordova PDF generation di sini
+            } else {
+                // Fallback untuk browser
+                exportHTML();
+                showToast("Browser: Export sebagai HTML (PDF require Cordova plugin)", "info");
+            }
+        }
+               // Print Report
+        function printReport() {
+            if (dataMBG.length === 0) {
+                showToast("Tidak ada data untuk dicetak", "warning");
+                return;
+            }
+            
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>Cetak Laporan MBG</title>
+                    <style>
+                        body { font-family: Arial; padding: 20px; }
+                        h2 { text-align: center; color: #333; }
+                        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+                        th, td { border: 1px solid #333; padding: 8px; text-align: center; }
+                        th { background-color: #f0f0f0; }
+                        @media print {
+                            body { padding: 0; }
+                            button { display: none; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h2>LAPORAN MBG</h2>
+                    <p style="text-align: center;">Tanggal: ${new Date().toLocaleDateString('id-ID')}</p>
+                    <table>
+                        <tr>
+                            <th>No</th>
+                            <th>Sekolah</th>
+                            <th>Besar</th>
+                            <th>Kecil</th>
+                        </tr>
+                        ${dataMBG.map((d, i) => `
+                        <tr>
+                            <td>${i + 1}</td>
+                            <td>${d.nama}</td>
+                            <td>${d.besar}</td>
+                            <td>${d.kecil}</td>
+                        </tr>`).join('')}
+                    </table>
+                    <div style="margin-top: 30px; text-align: center;">
+                        <button onclick="window.print()">Cetak</button>
+                        <button onclick="window.close()">Tutup</button>
+                    </div>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
+
+        // Share Report
+        function shareReport() {
+            if (dataMBG.length === 0) {
+                showToast("Tidak ada data untuk dibagikan", "warning");
+                return;
+            }
+            
+            let totalB = 0, totalK = 0;
+            dataMBG.forEach(d => {
+                totalB += d.besar;
+                totalK += d.kecil;
+            });
+            const text = `📊 Laporan MBG\n` +
+                        `📅 ${new Date().toLocaleDateString('id-ID')}\n` +
+                        `🏫 ${dataMBG.length} Sekolah\n` +
+                        `🍽️ Porsi Besar: ${totalB}\n` +
+                        `🥄 Porsi Kecil: ${totalK}\n` +
+                        `\nDihasilkan oleh Kalkulator MBG\n` +
+                        `Developed by Fiqih Dimas`;
+            
+            // Cordova Share Plugin
+            if (typeof navigator.share !== 'undefined') {
+                navigator.share({
+                    title: 'Laporan MBG',
+                    text: text,
+                })
+                .then(() => showToast("Berhasil dibagikan!", "success"))
+                .catch(err => {
+                    if (err.name !== 'AbortError') {
+                        copyToClipboard(text);
+                    }
+                });
+            } else {
+                // Fallback: Copy to clipboard
+                copyToClipboard(text);
+            }
+        }
+
+        // Copy to Clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text)
+                .then(() => showToast("Teks berhasil disalin ke clipboard!", "success"))
+                .catch(() => {
+                    const textArea = document.createElement("textarea");
+                    textArea.value = text;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(textArea);
+                    showToast("Teks berhasil disalin!", "success");
+                });
+        }
+
+        // Show Toast
+        function showToast(message, type = "success") {
+            const toast = document.getElementById("toast");
+            const toastMessage = document.getElementById("toastMessage");
+            
+            toast.className = "toast";
+            toast.classList.add(`toast-${type}`);
+            toastMessage.textContent = message;
+            
+            toast.classList.add("show");
+            
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 3000);
+        }
+
+        // Show Confirm Modal
+        function showConfirm(title, message, callback) {
+            document.getElementById("confirmMessage").textContent = message;
+            document.querySelector("#confirmModal .modal-title").innerHTML = 
+                `<i class="fas fa-exclamation-triangle"></i> ${title}`;
+            confirmCallback = callback;
+            document.getElementById("confirmModal").style.display = "flex";
+        }
+
+        // Confirm Action
+        function confirmAction(confirmed) {
+            document.getElementById("confirmModal").style.display = "none";
+            if (confirmed && confirmCallback) {
+                confirmCallback();
+            }
+            confirmCallback = null;
+        }
+
+        // Update Storage Info
+        function updateStorageInfo() {
+            const data = localStorage.getItem("dataMBG") || "[]";
+            const size = new Blob([data]).size;
+            const kb = (size / 1024).toFixed(2);
+            document.getElementById("storageInfo").textContent = `${kb} KB`;
+        }
+
+        // Developer Info
+        function showDeveloperInfo() {
+            showToast("Terima kasih telah menggunakan aplikasi ini! ❤️", "info");
+        }
+            // Close modal ketika klik di luar
+        window.onclick = function(event) {
+            const modal = document.getElementById("confirmModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+                confirmCallback = null;
+            }
+        }
+    </script>
+</body>
+</html>
