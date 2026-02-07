@@ -1,49 +1,30 @@
-<?xml version='1.0' encoding='utf-8'?>
-<widget id="com.fiqihdimas.kalkulatormbg" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<?xml version="1.0" encoding="utf-8"?>
+<widget
+    id="com.fiqihdimas.kalkulatormbg"
+    version="1.0.0"
+    xmlns="http://www.w3.org/ns/widgets"
+    xmlns:cdv="http://cordova.apache.org/ns/1.0">
+
     <name>Kalkulator MBG</name>
+
     <description>
-        Aplikasi untuk menghitung porsi makanan bergizi (MBG)
+        Aplikasi Kalkulator MBG
     </description>
-    <author email="dev@fiqihdimas.com" href="https://fiqihdimas.com">
-        Fiqih Dimas
+
+    <author email="dev@mbg.app">
+        MBG App
     </author>
+
+    <!-- halaman utama -->
     <content src="index.html" />
+
+    <!-- izin akses -->
     <access origin="*" />
-    
-    <!-- Preferences -->
-    <preference name="orientation" value="portrait" />
-    <preference name="Fullscreen" value="false" />
-    <preference name="DisallowOverscroll" value="true" />
-    <preference name="android-minSdkVersion" value="22" />
-    <preference name="android-targetSdkVersion" value="33" />
-    
-    <!-- Icons -->
-    <icon src="res/icon/android/icon-36-ldpi.png" density="ldpi" />
-    <icon src="res/icon/android/icon-48-mdpi.png" density="mdpi" />
-    <icon src="res/icon/android/icon-72-hdpi.png" density="hdpi" />
-    <icon src="res/icon/android/icon-96-xhdpi.png" density="xhdpi" />
-    <icon src="res/icon/android/icon-144-xxhdpi.png" density="xxhdpi" />
-    <icon src="res/icon/android/icon-192-xxxhdpi.png" density="xxxhdpi" />
-    
-    <!-- Splash Screen -->
-    <splash src="res/screen/android/splash-land-hdpi.png" density="land-hdpi"/>
-    <splash src="res/screen/android/splash-land-ldpi.png" density="land-ldpi"/>
-    <splash src="res/screen/android/splash-land-mdpi.png" density="land-mdpi"/>
-    <splash src="res/screen/android/splash-land-xhdpi.png" density="land-xhdpi"/>
-    <splash src="res/screen/android/splash-port-hdpi.png" density="port-hdpi"/>
-    <splash src="res/screen/android/splash-port-ldpi.png" density="port-ldpi"/>
-    <splash src="res/screen/android/splash-port-mdpi.png" density="port-mdpi"/>
-    <splash src="res/screen/android/splash-port-xhdpi.png" density="port-xhdpi"/>
-    
-    <!-- Required Plugins -->
-    <plugin name="cordova-plugin-whitelist" spec="1" />
-    <plugin name="cordova-plugin-file" spec="^6.0.0" />
-    <plugin name="cordova-plugin-file-opener2" spec="^3.0.0" />
-    
-    <!-- Optional Plugins (untuk fitur tambahan) -->
-    <!--
-    <plugin name="cordova-plugin-dialogs" spec="^2.0.0" />
-    <plugin name="cordova-plugin-network-information" spec="^2.0.0" />
-    <plugin name="cordova-plugin-statusbar" spec="^2.4.0" />
-    -->
+
+    <!-- Android basic -->
+    <platform name="android">
+        <preference name="android-minSdkVersion" value="22" />
+        <preference name="android-targetSdkVersion" value="34" />
+    </platform>
+
 </widget>
