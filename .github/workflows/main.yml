@@ -1,0 +1,54 @@
+name: Build Android APK (Cordova)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # Node.js
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+
+    # Java (WAJIB untuk Android)
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    # Android SDK
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    # Install Cordova
+    - name: Install Cordova
+      run: |
+        npm install -g cordova
+        cordova --version
+
+    # Add Android platform
+    - name: Add Android platform
+      run: |
+        cordova platform add android
+
+    # Build APK
+    - name: Build APK
+      run: |
+        cordova build android
+
+    # Upload APK
+    - name: Upload APK Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: KalkulatorMBG-APK
+        path: platforms/android/app/build/outputs/apk/debug/app-debug.apk
