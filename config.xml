@@ -1,30 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<widget
-    id="com.fiqihdimas.kalkulatormbg"
-    version="1.0.0"
-    xmlns="http://www.w3.org/ns/widgets"
-    xmlns:cdv="http://cordova.apache.org/ns/1.0">
-
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.fiqihdimas.kalkulatormbg" version="1.0.0">
     <name>Kalkulator MBG</name>
-
-    <description>
-        Aplikasi Kalkulator MBG
-    </description>
-
-    <author email="dev@mbg.app">
-        MBG App
-    </author>
-
-    <!-- halaman utama -->
+    <description>Hitung porsi makanan bergizi</description>
+    <author>Fiqih Dimas</author>
+    
     <content src="index.html" />
-
-    <!-- izin akses -->
     <access origin="*" />
-
-    <!-- Android basic -->
-    <platform name="android">
-        <preference name="android-minSdkVersion" value="22" />
-        <preference name="android-targetSdkVersion" value="34" />
-    </platform>
-
+    
+    <preference name="orientation" value="portrait" />
+    <preference name="android-minSdkVersion" value="22" />
+    
+    <plugin name="cordova-plugin-whitelist" spec="1" />
 </widget>
