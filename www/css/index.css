@@ -753,3 +753,49 @@ p {
         flex-direction: column;
     }
 }
+/* ============================================
+   FOOTER CLICKABLE
+   ============================================ */
+.footer-info {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+.footer-info:hover {
+    background: rgba(37, 99, 235, 0.1);
+    transform: translateY(-2px);
+}
+/* ============================================
+   DEVELOPER INFO BUTTON
+   ============================================ */
+.dev-info-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: var(--shadow-lg);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.dev-info-btn:hover {
+    transform: scale(1.1) rotate(15deg);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+}
+
+/* Hapus padding-bottom body karena footer sudah dihapus */
+body {
+    padding-bottom: 20px; /* Kurangi dari 80px jadi 20px */
+}
