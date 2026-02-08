@@ -7,7 +7,7 @@ const APP_CONFIG = {
     STORAGE_KEY: 'dataMBG',
     APP_NAME: 'Kalkulator MBG',
     DEVELOPER: 'Fiqih Dimas',
-    VERSION: 'v1.0.0'
+    VERSION: 'v1.2.3'
 };
 
 let dataMBG = [];
@@ -29,7 +29,6 @@ const elements = {
     btnExportPDF: document.getElementById('btnExportPDF'),
     btnPrint: document.getElementById('btnPrint'),
     btnShare: document.getElementById('btnShare'),
-    storageInfo: document.getElementById('storageInfo'),
     toast: document.getElementById('toast'),
     toastMessage: document.getElementById('toastMessage'),
     confirmModal: document.getElementById('confirmModal'),
@@ -44,7 +43,12 @@ document.addEventListener('DOMContentLoaded', function() {
     loadData();
     setupEventListeners();
     showPopupDeveloper();
-    updateStorageInfo();
+    
+    // Setup tombol info developer
+    const devInfoBtn = document.getElementById('devInfoBtn');
+    if (devInfoBtn) {
+        devInfoBtn.addEventListener('click', showPopupDeveloper);
+    }
 });
 
 // ============================================
@@ -85,12 +89,6 @@ function showConfirm(title, message, onConfirm) {
     elements.modalCancel.addEventListener('click', handleCancel, { once: true });
 }
 
-function updateStorageInfo() {
-    const dataSize = JSON.stringify(dataMBG).length;
-    const sizeInKB = (dataSize / 1024).toFixed(2);
-    elements.storageInfo.innerHTML = `<i class="fas fa-database"></i> Storage: ${sizeInKB} KB`;
-}
-
 // ============================================
 // FUNGSI DATA
 // ============================================
@@ -103,7 +101,6 @@ function loadData() {
 
 function saveData() {
     localStorage.setItem(APP_CONFIG.STORAGE_KEY, JSON.stringify(dataMBG));
-    updateStorageInfo();
 }
 
 function setupEventListeners() {
@@ -609,218 +606,6 @@ function copyToClipboard(text) {
 }
 
 // ============================================
-// POPUP DEVELOPER (YANG DIPERBAIKI)
-// ============================================
-
-function showPopupDeveloper() {
-    // Buat elemen popup developer
-    const popupHTML = `
-        <div id="developerPopup" class="developer-popup show">
-            <div class="popup-content">
-                <button class="popup-close" onclick="closePopupDeveloper()">&times;</button>
-                <div class="popup-header">
-                    <div class="popup-icon">
-                        <i class="fas fa-laptop-code"></i>
-                    </div>
-                    <h2 class="popup-title">Dikembangkan oleh</h2>
-                    <div class="developer-name">${APP_CONFIG.DEVELOPER}</div>
-                </div>
-                <div class="popup-body">
-                    <p class="popup-message">
-                        <i class="fas fa-calculator"></i> ${APP_CONFIG.APP_NAME} ${APP_CONFIG.VERSION}
-                        <br>
-                        Aplikasi kalkulator porsi makanan bergizi untuk sekolah
-                    </p>
-                    <div class="popup-stats">
-                        <div class="stat-item">
-                            <i class="fas fa-database"></i>
-                            <span>Data: ${dataMBG.length} sekolah</span>
-                        </div>
-                        <div class="stat-item">
-                            <i class="fas fa-save"></i>
-                            <span>Storage: ${(JSON.stringify(dataMBG).length / 1024).toFixed(2)} KB</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="popup-footer">
-                    <p>© ${new Date().getFullYear()} • Dibuat dengan ❤️ untuk pendidikan</p>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    // Tambahkan CSS untuk popup
-    const style = document.createElement('style');
-    style.textContent = `
-        .developer-popup {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.4s, visibility 0.4s;
-            backdrop-filter: blur(5px);
-        }
-        .developer-popup.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        .popup-content {
-            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-            border-radius: 24px;
-            padding: 40px;
-            max-width: 450px;
-            width: 90%;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-            border: 2px solid #2563eb;
-            animation: popupAppear 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            color: white;
-        }
-        @keyframes popupAppear {
-            0% { transform: scale(0.8) translateY(30px); opacity: 0; }
-            100% { transform: scale(1) translateY(0); opacity: 1; }
-        }
-        .popup-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .popup-close:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: rotate(90deg);
-        }
-        .popup-header {
-            margin-bottom: 30px;
-        }
-        .popup-icon {
-            font-size: 4rem;
-            color: #60a5fa;
-            margin-bottom: 20px;
-            text-shadow: 0 5px 15px rgba(96, 165, 250, 0.4);
-        }
-        .popup-title {
-            font-size: 1.1rem;
-            color: #cbd5e1;
-            margin-bottom: 10px;
-            font-weight: 300;
-        }
-        .developer-name {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #60a5fa;
-            margin-bottom: 10px;
-            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-        }
-        .popup-body {
-            margin-bottom: 30px;
-        }
-        .popup-message {
-            color: #cbd5e1;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            font-size: 1.1rem;
-        }
-        .popup-stats {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 25px;
-        }
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-        .stat-item i {
-            font-size: 1.5rem;
-            color: #60a5fa;
-        }
-        .stat-item span {
-            font-size: 0.9rem;
-            color: #94a3b8;
-        }
-        .popup-footer {
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-    `;
-    
-    document.head.appendChild(style);
-    document.body.insertAdjacentHTML('beforeend', popupHTML);
-    
-    // Auto close setelah 5 detik
-    setTimeout(closePopupDeveloper, 5000);
-}
-
-function closePopupDeveloper() {
-    const popup = document.getElementById('developerPopup');
-    if (popup) {
-        popup.classList.remove('show');
-        setTimeout(() => {
-            if (popup.parentNode) {
-                popup.parentNode.removeChild(popup);
-            }
-        }, 400);
-    }
-}
-
-// ============================================
-// EKSPOS FUNGSI KE GLOBAL
-// ============================================
-
-window.editData = editData;
-window.hapusData = hapusData;
-window.closePopupDeveloper = closePopupDeveloper;
-
-// ============================================
-// INISIALISASI TAMBAHAN
-// ============================================
-
-// Tambah keyboard shortcut
-document.addEventListener('keydown', (e) => {
-    // Ctrl+S untuk simpan
-    if (e.ctrlKey && e.key === 's') {
-        e.preventDefault();
-        elements.btnSimpan.click();
-    }
-    
-    // Esc untuk reset form
-    if (e.key === 'Escape' && !isEditing) {
-        elements.btnReset.click();
-    }
-});
-
-// Tampilkan popup developer saat klik footer
-document.querySelector('.footer-info').addEventListener('click', (e) => {
-    e.preventDefault();
-    showPopupDeveloper();
-});
-
-// ============================================
 // POPUP DEVELOPER (YANG DIPERBAIKI) - FOOTER DIHAPUS
 // ============================================
 
@@ -997,19 +782,40 @@ function showPopupDeveloper() {
     setTimeout(closePopupDeveloper, 5000);
 }
 
+function closePopupDeveloper() {
+    const popup = document.getElementById('developerPopup');
+    if (popup) {
+        popup.classList.remove('show');
+        setTimeout(() => {
+            if (popup.parentNode) {
+                popup.parentNode.removeChild(popup);
+            }
+        }, 400);
+    }
+}
+
 // ============================================
-// INISIALISASI - Update bagian event listener
+// EKSPOS FUNGSI KE GLOBAL
 // ============================================
 
-// Tambah event listener untuk tombol info developer
-document.addEventListener('DOMContentLoaded', function() {
-    loadData();
-    setupEventListeners();
-    showPopupDeveloper(); // Muncul otomatis saat pertama kali
+window.editData = editData;
+window.hapusData = hapusData;
+window.closePopupDeveloper = closePopupDeveloper;
+
+// ============================================
+// INISIALISASI TAMBAHAN
+// ============================================
+
+// Tambah keyboard shortcut
+document.addEventListener('keydown', (e) => {
+    // Ctrl+S untuk simpan
+    if (e.ctrlKey && e.key === 's') {
+        e.preventDefault();
+        elements.btnSimpan.click();
+    }
     
-    // Setup tombol info developer
-    const devInfoBtn = document.getElementById('devInfoBtn');
-    if (devInfoBtn) {
-        devInfoBtn.addEventListener('click', showPopupDeveloper);
+    // Esc untuk reset form
+    if (e.key === 'Escape' && !isEditing) {
+        elements.btnReset.click();
     }
 });

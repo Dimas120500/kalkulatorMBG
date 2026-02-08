@@ -59,7 +59,7 @@ body {
     line-height: 1.6;
     min-height: 100vh;
     padding: var(--spacing-md);
-    padding-bottom: 80px; /* Space for footer */
+    padding-bottom: 20px; /* DIUBAH: dari 80px jadi 20px */
 }
 
 /* ============================================
@@ -629,55 +629,31 @@ p {
 }
 
 /* ============================================
-   FOOTER
+   DEVELOPER INFO BUTTON (GANTI FOOTER LAMA)
    ============================================ */
-.app-footer {
+.dev-info-btn {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: var(--white);
-    padding: var(--spacing-sm) var(--spacing-md);
-    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: var(--shadow-lg);
     z-index: 100;
-    border-top: 1px solid #e2e8f0;
-}
-
-.footer-content {
-    max-width: 800px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.footer-info {
     display: flex;
     align-items: center;
-    gap: var(--spacing-xs);
-    font-size: 0.9rem;
-    color: var(--secondary);
+    justify-content: center;
+    transition: all 0.3s ease;
 }
 
-.footer-info i {
-    color: var(--primary);
-}
-
-.footer-info strong {
-    color: var(--dark);
-}
-
-.footer-stats {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-lg);
-    font-size: 0.85rem;
-    color: var(--secondary);
-}
-
-.version {
-    font-size: 0.8rem;
-    opacity: 0.7;
+.dev-info-btn:hover {
+    transform: scale(1.1) rotate(15deg);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
 }
 
 /* ============================================
@@ -723,17 +699,6 @@ p {
         padding: var(--spacing-md);
         margin-bottom: var(--spacing-md);
     }
-    
-    .footer-content {
-        flex-direction: column;
-        gap: var(--spacing-xs);
-        text-align: center;
-    }
-    
-    .footer-stats {
-        flex-direction: column;
-        gap: var(--spacing-xs);
-    }
 }
 
 @media (max-width: 480px) {
@@ -752,50 +717,4 @@ p {
     .modal-footer {
         flex-direction: column;
     }
-}
-/* ============================================
-   FOOTER CLICKABLE
-   ============================================ */
-.footer-info {
-    cursor: pointer;
-    transition: all 0.3s ease;
-    padding: 5px 10px;
-    border-radius: 8px;
-}
-
-.footer-info:hover {
-    background: rgba(37, 99, 235, 0.1);
-    transform: translateY(-2px);
-}
-/* ============================================
-   DEVELOPER INFO BUTTON
-   ============================================ */
-.dev-info-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    color: white;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    box-shadow: var(--shadow-lg);
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-}
-
-.dev-info-btn:hover {
-    transform: scale(1.1) rotate(15deg);
-    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
-}
-
-/* Hapus padding-bottom body karena footer sudah dihapus */
-body {
-    padding-bottom: 20px; /* Kurangi dari 80px jadi 20px */
 }
