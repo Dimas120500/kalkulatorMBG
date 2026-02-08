@@ -6,7 +6,7 @@ const APP_CONFIG = {
     ISI_PER_IKAT: 5,
     STORAGE_KEY: 'dataMBG',
     APP_NAME: 'Kalkulator MBG',
-    DEVELOPER: 'Fiqih Dimas',
+    DEVELOPER: 'Fiqih Dimas SM',
     VERSION: 'v1.2.3'
 };
 
@@ -625,12 +625,12 @@ function showPopupDeveloper() {
                     <div class="popup-icon">
                         <i class="fas fa-laptop-code"></i>
                     </div>
-                    <h2 class="popup-title">Kalkulator MBG</h2>
+                    <h2 class="popup-title">DEVELOPER</h2>
                     <div class="developer-name">${APP_CONFIG.DEVELOPER}</div>
                 </div>
                 <div class="popup-body">
                     <p class="popup-message">
-                        Aplikasi untuk menghitung porsi makanan bergizi di sekolah
+                        Atu lintang 8 februari 2026
                         <br><br>
                         <small>Versi: ${APP_CONFIG.VERSION}</small>
                     </p>
